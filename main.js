@@ -171,6 +171,7 @@ function initPathLength() {
 }
 
 function updateJourneyLine() {
+  if (window.innerWidth <= 768) return; // Skip heavy SVG scroll math on mobile (SVG is hidden anyway)
   if (!journeyWrapper || !journeyLine) return;
 
   const rect     = journeyWrapper.getBoundingClientRect();
@@ -178,9 +179,6 @@ function updateJourneyLine() {
   const progress = Math.min(Math.max((wHeight - rect.top) / (rect.height + wHeight), 0), 1);
 
   journeyLine.style.strokeDashoffset = pathLength - progress * pathLength;
-
-  // Mesh shift dynamic parallax
-  document.body.style.setProperty('--scroll-y', `${window.scrollY}px`);
 
   if (pathLength > 0) {
     try {
